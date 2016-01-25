@@ -14,6 +14,9 @@ class IndexView(generic.ListView):
     def get_queryset(self):
         return [utils.test_function()]
 
+def home(request):
+    return HttpResponseRedirect(reverse('demo:index'))
+
 def index(request):
     context = {
         'data': sorted(utils.get_object_list()),

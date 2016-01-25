@@ -9,16 +9,18 @@
       action="{% url 'demo:delete' object_name %}">
   {% csrf_token %}
   {% if data %}
-    <div class="jumbotron"><p class="lead">{{ data }}</p></div>
-    <a class="btn btn-lg btn-success" 
+    <div class="jumbotron">
+      <p class="lead" id="detailsbox">{{ data }}</p>
+    </div>
+    <a class="btn btn-lg btn-primary" 
        href="{% url 'demo:edit' object_name %}" role="button">Edit</a>
+    <a class="btn btn-lg btn-primary" 
+       href="{% url 'demo:index' %}" role="button">Back</a>
     <input type="hidden" name="supporttype" />
-    <input type="submit" value="Delete" class="btn btn-lg btn-success"/>
+    <input type="submit" value="Delete" class="btn btn-lg btn-danger"/>
   {% else %}
     <h4>Object <strong>{{ object_name }}</strong> not found.</h4><br>
   {% endif %}
-  <a class="btn btn-lg btn-success" 
-     href="{% url 'demo:index' %}" role="button">Back</a>
 </form>
 
 {% endblock %}

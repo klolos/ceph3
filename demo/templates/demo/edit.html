@@ -10,9 +10,9 @@
     {% csrf_token %}
     <p>{{ form.data }}</p>
     <p>
-      <input class="btn btn-lg btn-success" 
+      <input class="btn btn-lg btn-primary" 
              type="submit" value="Save"/>
-      <a class="btn btn-lg btn-success" 
+      <a class="btn btn-lg btn-primary" 
          href="{% url 'demo:details' object_name %}" 
          role="button">Cancel</a></p>
     </p>
