@@ -6,6 +6,9 @@ urlpatterns = [
     # /
     url(r'^$', views.index, name='index'),
 
+    # /login
+    url(r'^login/$', views.login, name='login'),
+
     # /object/myobject
     url(r'^object/(?P<object_name>[a-zA-Z0-9\-]+)/$', 
         views.details, name='details'),

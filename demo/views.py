@@ -8,12 +8,6 @@ from . import utils
 from .forms import CreateObjectForm, EditObjectForm
 
 
-class IndexView(generic.ListView):
-    template_name = 'demo/index.html'
-
-    def get_queryset(self):
-        return [utils.test_function()]
-
 def home(request):
     return HttpResponseRedirect(reverse('demo:index'))
 
@@ -23,6 +17,12 @@ def index(request):
         'title': 'Dashboard',
     }
     return render(request, 'demo/index.html', context)
+
+def login(request):
+    context = {
+        'title': 'Log In',
+    }
+    return render(request, 'demo/login.html', context)
 
 def details(request, object_name):
     data = utils.get_data(object_name)
