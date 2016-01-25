@@ -27,7 +27,8 @@
         <td>{{ forloop.counter }}</td>
         <td><a href="{% url 'demo:details' object_name %}">
             {{ object_name }}</a></td>
-        <th><a href="{% url 'demo:edit' object_name %}">edit</a></th>
+        <td><a href="{% url 'demo:edit' object_name %}">edit</a></td>
+      </tr>
       {% endfor %}
     </tbody>
   </table>

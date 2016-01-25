@@ -7,14 +7,15 @@ class EditObjectForm(Form):
     object_name = CharField(widget=TextInput(attrs=attrs))
 
     # Data
-    attrs = {'autofocus': 'true'}
+    attrs = {'autofocus': 'autofocus', 'required': 'true'}
     data = CharField(widget=Textarea(attrs=attrs))
 
 class CreateObjectForm(Form):
     # Object name
-    attrs = {'autofocus': 'true'}
+    attrs = {'autofocus': 'autofocus', 'required': 'true'}
     object_name = CharField(widget=TextInput(attrs=attrs))
 
     # Data
-    data = CharField(widget=Textarea())
+    attrs = {'required': 'true'}
+    data = CharField(widget=Textarea(attrs=attrs))
 
