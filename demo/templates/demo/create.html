@@ -1,0 +1,24 @@
+{% extends 'demo/base.html' %}
+
+{% block content %}
+
+<h1 class="page-header">Create New Object</h1>
+{% include 'demo/messages.html' %}
+
+<form action="{% url 'demo:store_new' %}" method="post">
+  {% csrf_token %}
+  <p><h4>Object Name:</h4></p>
+  <p>{{ form.object_name }}</p>
+  <p><h4>Data:</h4></p>
+  <p>{{ form.data }}</p>
+  <p>
+    <input class="btn btn-lg btn-success" 
+           type="submit" value="Save"/>
+    <a class="btn btn-lg btn-success" 
+       href="{% url 'demo:index' %}" 
+       role="button">Back</a></p>
+  </p>
+</form>
+
+{% endblock %}
+
