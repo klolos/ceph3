@@ -10,21 +10,21 @@ urlpatterns = [
     url(r'^object/(?P<object_name>[a-zA-Z0-9\-]+)/$', 
         views.details, name='details'),
 
-    # /edit/myobject
-    url(r'^edit/(?P<object_name>[a-zA-Z0-9\-]+)/$', 
+    # /object/myobject/edit
+    url(r'^object/(?P<object_name>[a-zA-Z0-9\-]+)/edit/$', 
         views.edit, name='edit'),
 
-    # /store/myobject
-    url(r'^store/(?P<object_name>[a-zA-Z0-9\-]+)/$', 
-        views.store, name='store'),
+    # /object/myobject/update
+    url(r'^object/(?P<object_name>[a-zA-Z0-9\-]+)/update/$', 
+        views.update, name='update'),
 
-    # /delete/myobject
-    url(r'^delete/(?P<object_name>[a-zA-Z0-9\-]+)/$', 
+    # /object/myobject/delete
+    url(r'^object/(?P<object_name>[a-zA-Z0-9\-]+)/delete/$', 
         views.delete, name='delete'),
 
     # /create
     url(r'^create/$', views.create, name='create'),
 
-    # /store_new
-    url(r'^store_new/$', views.store_new, name='store_new'),
+    # /store
+    url(r'^store/$', views.store, name='store'),
 ]

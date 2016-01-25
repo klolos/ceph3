@@ -5,7 +5,7 @@
 <h1 class="page-header">Create New Object</h1>
 {% include 'demo/messages.html' %}
 
-<form action="{% url 'demo:store_new' %}" method="post">
+<form action="{% url 'demo:store' %}" method="post">
   {% csrf_token %}
   <p><h4>Object Name:</h4></p>
   <p>{{ form.object_name }}</p>

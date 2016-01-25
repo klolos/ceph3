@@ -6,7 +6,7 @@
 {% include 'demo/messages.html' %}
 
 {% if data %}
-  <form action="{% url 'demo:store' object_name %}" method="post">
+  <form action="{% url 'demo:update' object_name %}" method="post">
     {% csrf_token %}
     <p>{{ form.data }}</p>
     <p>
