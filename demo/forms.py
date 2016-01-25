@@ -1,16 +1,20 @@
 from django import forms
+from django.forms import Form, CharField, Textarea, TextInput
 
-class EditObjectForm(forms.Form):
-    data_widget = forms.Textarea(
-                    attrs={'required': 'true',
-                           'autofocus': 'true'})
-    data = forms.CharField(widget=data_widget)
+class EditObjectForm(Form):
+    # Object name
+    attrs = {'readonly': 'readonly'}
+    object_name = CharField(widget=TextInput(attrs=attrs))
 
-class CreateObjectForm(forms.Form):
-    data_widget = forms.Textarea(attrs={'required': 'true'})
-    data = forms.CharField(widget=data_widget, required=True)
+    # Data
+    attrs = {'autofocus': 'true'}
+    data = CharField(widget=Textarea(attrs=attrs))
 
-    name_widget = forms.TextInput(attrs={'required': 'true',
-                                         'autofocus': 'true'})
-    object_name = forms.CharField(widget=name_widget, required=True)
+class CreateObjectForm(Form):
+    # Object name
+    attrs = {'autofocus': 'true'}
+    object_name = CharField(widget=TextInput(attrs=attrs))
+
+    # Data
+    data = CharField(widget=Textarea())
 

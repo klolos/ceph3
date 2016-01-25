@@ -35,7 +35,8 @@ def details(request, object_name):
 
 def edit(request, object_name):
     data = utils.get_data(object_name)
-    form = EditObjectForm(initial={'data': data})
+    form = EditObjectForm(initial={'data': data, 
+                                   'object_name': object_name})
     context = {
         'title': 'Edit ' + object_name,
         'object_name': object_name,

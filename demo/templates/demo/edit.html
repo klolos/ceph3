@@ -1,27 +1,31 @@
 {% extends 'demo/base.html' %}
+{% load crispy_forms_tags %}
 
 {% block content %}
 
 <h1 class="page-header">Edit {{ object_name }}</h1>
 {% include 'demo/messages.html' %}
 
-{% if data %}
-  <form action="{% url 'demo:update' object_name %}" method="post">
-    {% csrf_token %}
-    <p>{{ form.data }}</p>
-    <p>
-      <input class="btn btn-lg btn-primary" 
-             type="submit" value="Save" />
-      <a class="btn btn-lg btn-primary" 
-         href="{% url 'demo:details' object_name %}" 
-         role="button">Cancel</a></p>
-    </p>
-  </form>
-{% else %}
-  <p><h4>Object <strong>{{ object_name }}</strong> not found.</h4></p>
-  <p><a class="btn btn-lg btn-success" 
-        href="{% url 'demo:index' %}" role="button">Back</a>
-{% endif %}
-
+<div class="row">
+  <div class="col-sm-8">
+    {% if data %}
+      <form action="{% url 'demo:update' object_name %}" method="post">
+        {% csrf_token %}
+        <p>{{ form|crispy }}</p>
+        <p>
+          <input class="btn btn-lg btn-primary" 
+                 type="submit" value="Save" />
+          <a class="btn btn-lg btn-primary" 
+             href="{% url 'demo:details' object_name %}" 
+             role="button">Cancel</a></p>
+        </p>
+      </form>
+    {% else %}
+      <p><h4>Object <strong>{{ object_name }}</strong> not found.</h4></p>
+      <p><a class="btn btn-lg btn-success" 
+            href="{% url 'demo:index' %}" role="button">Back</a>
+    {% endif %}
+  </div>
+</div>
 {% endblock %}
 
