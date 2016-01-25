@@ -2,6 +2,7 @@ import paramiko
 import tempfile
 import os
 import re
+from subprocess import call
 
 CEPH_ADMIN = 'admin-node'
 CEPH_ADMIN_PORT = 22
@@ -61,4 +62,6 @@ def is_valid_name(name):
 def exists(name):
     return name in get_object_list()
 
+def startup_cluster():
+    call(['start-ceph'])
 
