@@ -1,5 +1,7 @@
 from django import forms
-from django.forms import Form, CharField, Textarea, TextInput
+from django.forms import Form, CharField, BooleanField, Textarea
+from django.forms import TextInput, PasswordInput, CheckboxInput
+from django.forms import HiddenInput
 
 class EditObjectForm(Form):
     # Object name
@@ -18,4 +20,16 @@ class CreateObjectForm(Form):
     # Data
     attrs = {'required': 'true'}
     data = CharField(widget=Textarea(attrs=attrs))
+
+class LoginForm(Form):
+    # User name
+    attrs = {'autofocus': 'autofocus', 'required': 'true'}
+    username = CharField(widget=TextInput(attrs=attrs))
+
+    attrs = {'required': 'true'}
+    password = CharField(widget=PasswordInput(attrs=attrs))
+
+    remember_me = BooleanField(required=False, initial=True)
+    
+    next_url = CharField(widget=HiddenInput())
 

@@ -1,16 +1,67 @@
 from django.contrib import messages
+from django.contrib.auth import authenticate
+from django.contrib.auth import login as auth_login
+from django.contrib.auth import logout as auth_logout
+from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.views import generic
 
 from . import utils
-from .forms import CreateObjectForm, EditObjectForm
+from .forms import CreateObjectForm, EditObjectForm, LoginForm
 
 
 def home(request):
     return HttpResponseRedirect(reverse('demo:index'))
 
+def login(request):
+    initial = {
+        'remember_me': 'true',
+        'next_url': request.GET.get('next', reverse('demo:index'))
+    }
+    context = {
+        'title': 'Log In',
+        'form': LoginForm(initial=initial),
+    }
+    return render(request, 'demo/login.html', context)
+
+def request_login(request):
+    if request.method != 'POST':
+        messages.add_message(request, messages.INFO,
+                             'Invalid request.')
+        return HttpResponseRedirect(reverse('demo:login'))
+
+    form = LoginForm(request.POST)
+    if not form.is_valid():
+        messages.add_message(request, messages.INFO,
+                             'Invalid credentials.')
+        return HttpResponseRedirect(reverse('demo:login'))
+        
+    username = form.cleaned_data['username']
+    password = form.cleaned_data['password']
+    next_url = form.cleaned_data['next_url']
+    user = authenticate(username=username, password=password)
+    print("User = " + str(user))
+    print("Next url = " + str(next_url))
+    if user is None:
+        messages.add_message(request, messages.INFO,
+                             'Incorrect username of password.')
+        return HttpResponseRedirect(reverse('demo:login'))
+
+    if not user.is_active:
+        messages.add_message(request, messages.INFO,
+                             'Sorry, this account has been disabled.')
+        return HttpResponseRedirect(reverse('demo:login'))
+
+    auth_login(request, user)
+    return HttpResponseRedirect(next_url)
+
+def logout(request):
+    auth_logout(request)
+    return HttpResponseRedirect(reverse('demo:login'))
+
+@login_required
 def index(request):
     context = {
         'data': sorted(utils.get_object_list()),
@@ -18,12 +69,7 @@ def index(request):
     }
     return render(request, 'demo/index.html', context)
 
-def login(request):
-    context = {
-        'title': 'Log In',
-    }
-    return render(request, 'demo/login.html', context)
-
+@login_required
 def details(request, object_name):
     data = utils.get_data(object_name)
     context = {
@@ -33,6 +79,7 @@ def details(request, object_name):
     }
     return render(request, 'demo/details.html', context)
 
+@login_required
 def edit(request, object_name):
     data = utils.get_data(object_name)
     form = EditObjectForm(initial={'data': data, 
@@ -45,6 +92,7 @@ def edit(request, object_name):
     }
     return render(request, 'demo/edit.html', context)
 
+@login_required
 def update(request, object_name):
     if request.method != 'POST':
         return HttpResponseRedirect(reverse('demo:index'))
@@ -63,12 +111,15 @@ def update(request, object_name):
                                             args=(object_name,)))
         
     data = form.cleaned_data['data']
-    utils.store_object(object_name, data)
-    messages.add_message(request, messages.INFO, 
-                         'Object stored successfully.')
+    if utils.store_object(object_name, data):
+        message = 'Object stored successfully.'
+    else:
+        message = 'Unable to complete the request.'
+    messages.add_message(request, messages.INFO, message)
     return HttpResponseRedirect(reverse('demo:details',
                                         args=(object_name,)))
 
+@login_required
 def delete(request, object_name):
     if request.method != 'POST':
         return HttpResponseRedirect(reverse('demo:index'))
@@ -83,6 +134,7 @@ def delete(request, object_name):
             'Object %s deleted!' % object_name)
         return HttpResponseRedirect(reverse('demo:index'))
         
+@login_required
 def create(request):
     form = CreateObjectForm()
     context = {
@@ -91,6 +143,7 @@ def create(request):
     }
     return render(request, 'demo/create.html', context)
 
+@login_required
 def store(request):
     if request.method != 'POST':
         return HttpResponseRedirect(reverse('demo:index'))
@@ -114,9 +167,12 @@ def store(request):
             'Object already exists!')
         return HttpResponseRedirect(reverse('demo:create'))
 
-    utils.store_object(object_name, data)
-    messages.add_message(request, messages.INFO, 
-                         'Object created successfully.')
+    if utils.store_object(object_name, data):
+        message = 'Object created successfully.'
+    else:
+        message = 'Unable to complete the request.'
+                             
+    messages.add_message(request, messages.INFO, message)
     return HttpResponseRedirect(reverse('demo:details',
                                         args=(object_name,)))
 
