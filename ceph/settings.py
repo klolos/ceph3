@@ -25,7 +25,7 @@ SECRET_KEY = 'g6dt@jn#5y)+6!e&%q=i!t7nx!76nfvgd_e9y23k%4)5@)+0*q'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['www.cephdemo.com']
 
 
 # Application definition
