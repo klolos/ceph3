@@ -8,7 +8,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.views import generic
 
-from . import utils
+from . import ssh_utils as utils
 from .forms import CreateObjectForm, EditObjectForm, LoginForm
 
 
@@ -42,8 +42,6 @@ def request_login(request):
     password = form.cleaned_data['password']
     next_url = form.cleaned_data['next_url']
     user = authenticate(username=username, password=password)
-    print("User = " + str(user))
-    print("Next url = " + str(next_url))
     if user is None:
         messages.add_message(request, messages.INFO,
                              'Incorrect username of password.')
